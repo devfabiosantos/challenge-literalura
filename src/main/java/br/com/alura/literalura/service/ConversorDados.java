@@ -1,0 +1,19 @@
+package br.com.alura.literalura.service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ConversorDados {
+
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    public <T> T converter(String json, Class<T> classe) {
+        try {
+            return mapper.readValue(json, classe);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Erro ao converter JSON", e);
+        }
+    }
+}
