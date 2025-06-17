@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConversorDados {
+public class ConverteDados {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public <T> T converter(String json, Class<T> classe) {
+    public <T> T obterDados(String json, Class<T> classe) {
         try {
             return mapper.readValue(json, classe);
         } catch (JsonProcessingException e) {

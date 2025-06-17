@@ -20,7 +20,8 @@ public class Autor {
     @ManyToMany(mappedBy = "autores")//, cascade = CascadeType.ALL)
     private Set<Livro> livros = new HashSet<>();
 
-    public Autor() {}
+    public Autor() {
+    }
 
     public Autor(String nome, Integer anoNascimento, Integer anoFalecimento) {
         this.nome = nome;
@@ -78,7 +79,14 @@ public class Autor {
 
     @Override
     public String toString() {
-        return nome + " (" + anoNascimento + " - " +
-                (anoFalecimento != null ? anoFalecimento : "vivo") + ")";
+        String nomesLivros = livros.stream()
+                .map(Livro::getTitulo)
+                .toList()
+                .toString();
+
+        return "Autor: " + nome + "\n" +
+                "Ano de nascimento: " + anoNascimento + "\n" +
+                "Ano de falecimento: " + (anoFalecimento != null ? anoFalecimento : "vivo") + "\n" +
+                "Livros: " + nomesLivros;
     }
 }
