@@ -147,7 +147,6 @@ public class Principal {
                     .toList();
 
             System.out.println("Livros: " + livros);
-            System.out.println("------------");
         }
     }
 
