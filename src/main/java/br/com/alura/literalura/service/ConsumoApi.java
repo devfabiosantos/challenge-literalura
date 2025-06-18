@@ -1,26 +1,37 @@
 package br.com.alura.literalura.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 @Service
 public class ConsumoApi {
 
-    private final String URL_BASE = "https://gutendex.com/books/?search=";
+    private static final String URL_BASE = "https://gutendex.com/books/?search=";
 
     public String obterDados(String titulo) {
         try {
-            String tituloFormatado = URLEncoder.encode(titulo, StandardCharsets.UTF_8.toString());
-            RestTemplate restTemplate = new RestTemplate();
-            return restTemplate.getForObject(URL_BASE + tituloFormatado, String.class);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Erro ao codificar o título da busca", e);
+            String tituloFormatado = URLEncoder.encode(titulo, StandardCharsets.UTF_8);
+            String url = URL_BASE + tituloFormatado;
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("Erro ao consumir API", e);
         }
     }
 }
-
-

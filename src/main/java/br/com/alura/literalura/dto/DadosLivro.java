@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)  // <-- esta linha é importante!
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record DadosLivro(
         @JsonProperty("title") String title,
         @JsonProperty("authors") List<DadosAutor> authors,
